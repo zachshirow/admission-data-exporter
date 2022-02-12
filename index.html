@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"
+		></script>
+	</head>
+	<body dir="rtl">
+		<style>
+			* {
+				font-family: "samim", "calbri", "sans-serif";
+			}
+			body {
+				background-color: #f1f1f1;
+			}
+			main {
+				max-width: 800px;
+				margin: auto;
+				padding: 50px;
+			}
+
+			code {
+				background-color: white;
+				padding: 3px;
+				border-radius: 3px;
+			}
+		</style>
+
+		<script>
+			function downloadAllLinks() {
+				// get the list of request IDs
+				const requestlinksTextarea =
+					document.getElementById("requestlinks").value;
+				const requestlinks = requestlinksTextarea.split("\n");
+
+				// create a temporary download link
+
+				var interval = setInterval(download, 500, requestlinks);
+
+				function download(links) {
+					console.log(links.length);
+					var url = links.pop(); // get the last link, and remove it from the array of links.
+					var a = document.createElement("a");
+					a.setAttribute("href", url);
+					a.setAttribute("download", "");
+					a.setAttribute("target", "_blank");
+					a.click();
+
+					if (links.length == 0) {
+						clearInterval(interval);
+					}
+				}
+
+				download(requestlinks);
+			}
+		</script>
+
+		<main>
+			<h1>دانلود فایل های اکسل درخواست های تایید شده</h1>
+			<p class="lead">از سامانه پذیرش دانشجویان بین المللی دانشگاه مازندران</p>
+
+			<p>مراحل دانلود فایل های اکسل:</p>
+			<ol>
+				<li>
+					ساختن لینک های دانلود فایل های اکسل <br />
+
+					<p>نمونه لینک دانلود فایل اکسل</p>
+					<p dir="ltr">
+						<code
+							>http://admission.umz.ac.ir/services/apply/download/excel/<b>userid</b>/<b
+								>requestid</b
+							></code
+						>
+					</p>
+				</li>
+				<li>
+					وارد شدن به حساب کاربری مدیریت تان در
+					<a target="_blank" href="http://admission.umz.ac.ir/login"
+						>http://admission.umz.ac.ir/login</a
+					>
+				</li>
+				<li>
+					جایگذاری لینک های دانلود ساخته شده و کلیک روی دکمه "دانلود فایل های
+					اکسل"
+				</li>
+			</ol>
+			<p style="text-align: left">
+				<a
+					href="https://zachshirow.notion.site/752fa00ce3b548b09b4e90fe29fa15d4"
+					target="_blank"
+					>توضیحات کامل —></a
+				>
+			</p>
+
+			<br />
+			<br />
+			<hr />
+			<br />
+			<br />
+			<p>
+				<label for="requestlinks" class="form-label"
+					>لینک های دانلود فایل های اکسل (جدا شده با <code>enter</code>)</label
+				>
+
+				<textarea
+					dir="ltr"
+					class="form-control"
+					name="requestlinks"
+					id="requestlinks"
+					rows="10"
+				></textarea>
+			</p>
+			<p>
+				<button class="btn btn-block btn-primary" onclick="downloadAllLinks()">
+					دانلود فایل های اکسل
+				</button>
+			</p>
+		</main>
+	</body>
+</html>

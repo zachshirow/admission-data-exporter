@@ -10,6 +10,10 @@ const XLSX = require("xlsx");
 
 const excelFileNames = fs.readdirSync("./data-import");
 
+excelFileNames.filter((file) => {
+	return file.includes(".xlsx");
+});
+
 function findCell(sheet, cell) {
 	return sheet[cell] ? sheet[cell].v : undefined;
 }

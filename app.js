@@ -8,9 +8,9 @@ const XLSX = require("xlsx");
 // 4) create a new object or excel workbook where you can add the needed data later on
 // 5) loop over the new file names and get the needed fields from them. add the fields based on their degree to three different sheets
 
-const excelFileNames = fs.readdirSync("./data-import");
+const fileNames = fs.readdirSync("./data-import");
 
-excelFileNames.filter((file) => {
+const excelFileNames = fileNames.filter((file) => {
 	return file.includes(".xlsx");
 });
 

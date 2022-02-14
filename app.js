@@ -50,68 +50,33 @@ excelFileNames.map((f) => {
 });
 
 const headings = [
-	"userID",
-	"requestID",
-	"lastName",
-	"middleName",
-	"firstName",
-	"firstNameFa",
-	"lastNameFa",
-	"gender",
-	"maritalStatus",
-	"spouseName",
-	"numberOfChildren",
-	"religion",
-	"fathersName",
-	"fathersNameFa",
-	"mothersName",
-	"mothersNameFa",
-	"birthDate",
-	"country",
-	"city",
-	"nationality1",
-	"nationality2",
-	"nationality3",
-	"passportNumber",
-	"passportIssueDate",
-	"passportExpiryDate",
-	"passportIssuePlace",
-	"addressLine1",
-	"addressLine2",
-	"addressLine3",
-	"phone",
-	"fax",
-	"mobile",
-	"email",
-	"programId",
-	"programTitle",
-	"programTitleFa",
-	"programDisciplineFa",
-	"degree",
-	"highSchoolProgramId",
-	"highSchoolProgramTitle",
-	"highSchoolProgramTitleFa",
-	"highSchoolInstitutionId",
-	"highSchoolInstitutionTitle",
-	"highSchoolInstitutionTitleFa",
-	"highSchoolGPA",
-	"highSchoolIssueDate",
-	"bachelorProgramId",
-	"bachelorProgramTitle",
-	"bachelorProgramTitleFa",
-	"bachelorInstitutionId",
-	"bachelorInstitutionTitle",
-	"bachelorInstitutionTitleFa",
-	"bachelorGPA",
-	"bachelorIssueDate",
-	"masterProgramId",
-	"masterProgramTitle",
-	"masterProgramTitleFa",
-	"masterInstitutionId",
-	"masterInstitutionTitle",
-	"masterInstitutionTitleFa",
-	"masterGPA",
-	"masterIssueDate",
+	"شماره درخواست",
+	"نام خانوادگی انگلیسی",
+	"نام انگلیسی",
+	"نام فارسی",
+	"نام خانوادگی فارسی",
+	"جنسیت",
+	"وضعیت تاهل",
+	"دین",
+	"مذهب",
+	"نام انگلیسی پدر",
+	"نام فارسی پدر",
+	"تاریخ تولد",
+	"محل تولد",
+	"تابعیت",
+	"شماره گذرنامه",
+	"آدرس",
+	"موبایل",
+	"ایمیل",
+	"نوع پذیرش",
+	"نوع ورود به آموزش عالی",
+	"دوره",
+	"شماره رشته",
+	"عنوان رشته",
+	"گرایش رشته",
+	"دانشکده",
+	"مقطع",
+	"مقطع قبلی",
 ];
 
 const records = [];
@@ -132,141 +97,118 @@ excelFileNamesRevised.map((f) => {
 	const step4Sheet = workbook.Sheets[step4];
 
 	// required cells for doing the rename
-	const userID = findCell(personalInfoSheet, "B2");
 	const requestID = findCell(personalInfoSheet, "D2");
 	const lastName = findCell(personalInfoSheet, "H2");
-	const middleName = findCell(personalInfoSheet, "G2");
 	const firstName = findCell(personalInfoSheet, "F2");
+	const middleName =
+		findCell(personalInfoSheet, "G2") == undefined
+			? ""
+			: findCell(personalInfoSheet, "G2");
+	const name = `${firstName} ${middleName}`;
 	const firstNameFa = findCell(personalInfoSheet, "I2");
 	const lastNameFa = findCell(personalInfoSheet, "J2");
-	const gender = findCell(personalInfoSheet, "P2");
-	const maritalStatus = findCell(personalInfoSheet, "Q2");
-	const spouseName = findCell(personalInfoSheet, "R2");
-	const numberOfChildren = findCell(personalInfoSheet, "S2");
+
+	let gender = findCell(personalInfoSheet, "P2");
+
+	switch (gender) {
+		case "Male":
+			gender = "مرد";
+		case "Female":
+			gender = "زن";
+	}
+
+	let maritalStatus = findCell(personalInfoSheet, "Q2");
+
+	switch (maritalStatus) {
+		case "Married":
+			maritalStatus = "متاهل";
+		case "Single":
+			maritalStatus = "مجرد";
+	}
+
 	const religion = findCell(personalInfoSheet, "T2");
+	const mazhab = undefined;
 
 	const fathersName = findCell(personalInfoSheet, "K2");
 	const fathersNameFa = undefined;
-	const mothersName = findCell(personalInfoSheet, "L2");
-	const mothersNameFa = undefined;
 
 	const birthDate = findCell(personalInfoSheet, "M2");
 	const country = findCell(personalInfoSheet, "N2");
-	const city = findCell(personalInfoSheet, "O2");
-	const nationality1 = findCell(personalInfoSheet, "Y2");
-	const nationality2 = findCell(personalInfoSheet, "Z2");
-	const nationality3 = findCell(personalInfoSheet, "AA2");
+	const nationality = findCell(personalInfoSheet, "Y2");
 
 	const passportNumber = findCell(personalInfoSheet, "U2");
-	const passportIssueDate = findCell(personalInfoSheet, "V2");
-	const passportExpiryDate = findCell(personalInfoSheet, "W2");
-	const passportIssuePlace = findCell(personalInfoSheet, "X2");
 
-	const addressLine1 = findCell(personalInfoSheet, "AB2");
-	const addressLine2 = findCell(personalInfoSheet, "AC2");
-	const addressLine3 = findCell(personalInfoSheet, "AD2");
-	const phone = findCell(personalInfoSheet, "AE2");
-	const fax = findCell(personalInfoSheet, "AF2");
-	const mobile = findCell(personalInfoSheet, "AG2");
+	const addressLine1 =
+		findCell(personalInfoSheet, "AB2") == undefined
+			? ""
+			: findCell(personalInfoSheet, "AB2");
+	const addressLine2 =
+		findCell(personalInfoSheet, "AC2") == undefined
+			? ""
+			: findCell(personalInfoSheet, "AC2");
+	const addressLine3 =
+		findCell(personalInfoSheet, "AD2") == undefined
+			? ""
+			: findCell(personalInfoSheet, "AD2");
+
+	const address = `${addressLine1} ${addressLine2} ${addressLine3} `;
+	const mobile =
+		findCell(personalInfoSheet, "AG2") || findCell(personalInfoSheet, "AE2");
 	const email = findCell(personalInfoSheet, "AH2");
 
+	const applicationType = "غیربورسیه";
+	const entranceType = "غیربورسیه";
+	const programType = "غیربورسیه";
+
 	const programId = findCell(step2Sheet, "F2");
-	const programTitle = findCell(step2Sheet, "X2");
 	const programTitleFa = undefined;
 	const programDisciplineFa = undefined;
+	const faculty = undefined;
 
-	const degree = findCell(step2Sheet, "D2");
+	let degree = findCell(step2Sheet, "D2");
 
-	const highSchoolProgramId = undefined;
-	const highSchoolProgramTitle = findCell(step3Sheet, "G2");
-	const highSchoolProgramTitleFa = undefined;
-	const highSchoolInstitutionId = undefined;
-	const highSchoolInstitutionTitle = findCell(step3Sheet, "E2");
-	const highSchoolInstitutionTitleFa = undefined;
-	const highSchoolGPA = findCell(step3Sheet, "D2");
-	const highSchoolIssueDate = findCell(step3Sheet, "C2");
+	let previousDegree = undefined;
 
-	const bachelorProgramId = undefined;
-	const bachelorProgramTitle = findCell(step3Sheet, "G3");
-	const bachelorProgramTitleFa = undefined;
-	const bachelorInstitutionId = undefined;
-	const bachelorInstitutionTitle = findCell(step3Sheet, "E3");
-	const bachelorInstitutionTitleFa = undefined;
-	const bachelorGPA = findCell(step3Sheet, "D3");
-	const bachelorIssueDate = findCell(step3Sheet, "C3");
-
-	const masterProgramId = undefined;
-	const masterProgramTitle = findCell(step3Sheet, "G4");
-	const masterProgramTitleFa = undefined;
-	const masterInstitutionId = undefined;
-	const masterInstitutionTitle = findCell(step3Sheet, "E4");
-	const masterInstitutionTitleFa = undefined;
-	const masterGPA = findCell(step3Sheet, "D4");
-	const masterIssueDate = findCell(step3Sheet, "C4");
+	switch (degree) {
+		case "Bachelor":
+			degree = "کارشناسی";
+			previousDegree = "دبیرستان";
+		case "Master":
+			degree = "کارشناسی ارشد";
+			previousDegree = "کارشناسی";
+		case "Phd":
+			degree = "دکتری";
+			previousDegree = "کارشناسی ارشد";
+	}
 
 	const newRecord = [
-		userID,
 		requestID,
 		lastName,
-		middleName,
-		firstName,
+		name,
 		firstNameFa,
 		lastNameFa,
 		gender,
 		maritalStatus,
-		spouseName,
-		numberOfChildren,
 		religion,
+		mazhab,
 		fathersName,
 		fathersNameFa,
-		mothersName,
-		mothersNameFa,
 		birthDate,
 		country,
-		city,
-		nationality1,
-		nationality2,
-		nationality3,
+		nationality,
 		passportNumber,
-		passportIssueDate,
-		passportExpiryDate,
-		passportIssuePlace,
-		addressLine1,
-		addressLine2,
-		addressLine3,
-		phone,
-		fax,
+		address,
 		mobile,
 		email,
+		applicationType,
+		entranceType,
+		programType,
 		programId,
-		programTitle,
 		programTitleFa,
 		programDisciplineFa,
+		faculty,
 		degree,
-		highSchoolProgramId,
-		highSchoolProgramTitle,
-		highSchoolProgramTitleFa,
-		highSchoolInstitutionId,
-		highSchoolInstitutionTitle,
-		highSchoolInstitutionTitleFa,
-		highSchoolGPA,
-		highSchoolIssueDate,
-		bachelorProgramId,
-		bachelorProgramTitle,
-		bachelorProgramTitleFa,
-		bachelorInstitutionId,
-		bachelorInstitutionTitle,
-		bachelorInstitutionTitleFa,
-		bachelorGPA,
-		bachelorIssueDate,
-		masterProgramId,
-		masterProgramTitle,
-		masterProgramTitleFa,
-		masterInstitutionId,
-		masterInstitutionTitle,
-		masterInstitutionTitleFa,
-		masterGPA,
-		masterIssueDate,
+		previousDegree,
 	];
 
 	records.push(newRecord);
@@ -279,13 +221,13 @@ const outputWorkbook = XLSX.utils.book_new();
 
 // 1. filter the records based on the
 const bachelorRecords = records.filter((record) => {
-	return record[37] === "Bachelor";
+	return record[25] == "کارشناسی";
 });
 const masterRecords = records.filter((record) => {
-	return record[37] === "Master";
+	return record[25] == "کارشناسی ارشد";
 });
 const phdRecords = records.filter((record) => {
-	return record[37] === "Phd";
+	return record[25] == "دکتری";
 });
 
 // 2. add the heading cells
